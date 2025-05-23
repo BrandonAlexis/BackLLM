@@ -1,40 +1,44 @@
 from fastapi import APIRouter
 from openai import OpenAI
-
-
 from interfaces.chatinterfaces import ChatCompletionResponse, InputMessage
 
 router = APIRouter()
 
+# Cliente de OpenRouter configurado
 client = OpenAI(
     api_key="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",
     base_url="https://openrouter.ai/api/v1",
-    default_headers={
-        "Authorization": "Bearer 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",
-        "HTTP-Referer": "https://fronllm.onrender.com",  # Cámbialo si usas otro frontend
-        "X-Title": "MiniChatGPT Brandon"
-    }
 )
+
+# Modelo que usaremos siempre
+MODEL = "google/gemma-3n-e4b-it:free"
 
 @router.post("/ai-chat")
 def aiChat(data: InputMessage):
     data = data.model_dump()
     print("message " + data["message"])
-    
-    message = "Por favor responde de manera concreta, clara y siempre en castellano, español."
+
+    # Mensaje del sistema
+    system_prompt = "Por favor responde de manera concreta, clara y siempre en castellano, español."
 
     try:
-        completion: ChatCompletionResponse = client.chat.completions.create(
-            model=data["model"],  # Usamos el modelo proporcionado por el usuario
+        # Llamada al modelo fijo con headers
+        completion = client.chat.completions.create(
+            model=MODEL,
             messages=[
-                {"role": "system", "content": message},
+                {"role": "system", "content": system_prompt},
                 {"role": "user", "content": data["message"]}
-            ]
+            ],
+            extra_headers={
+                "HTTP-Referer": "https://fronllm.onrender.com",
+                "X-Title": "MiniChatGPT Brandon"
+            },
+            extra_body={}
         )
+
         print("response " + completion.choices[0].message.content)
         return {"response": completion.choices[0].message.content}
+
     except Exception as e:
         print(f"Error: {e}")
         return {"error": str(e)}
-
-    
