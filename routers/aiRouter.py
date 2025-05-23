@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from openai import OpenAI
-from openai._utils import default_httpx_client
+
 
 from interfaces.chatinterfaces import ChatCompletionResponse, InputMessage
 
@@ -8,11 +8,11 @@ router = APIRouter()
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    http_client=default_httpx_client(headers={
+    default_headers={
         "Authorization": "Bearer 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",
-        "HTTP-Referer": "https://fronllm.onrender.com",  # tu frontend o dominio registrado en OpenRouter
+        "HTTP-Referer": "https://fronllm.onrender.com",  # Cambia esto a tu dominio
         "X-Title": "MiniChatGPT Brandon"
-    })
+    }
 )
 
 @router.post("/ai-chat")
