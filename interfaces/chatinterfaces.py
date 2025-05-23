@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 class InputMessage(BaseModel):
     message: str
-    model: str
+    model: Optional[str] = None  # ✅ Ahora es opcional
 
 class Usage(BaseModel):
     promt_tokens: int
