@@ -7,10 +7,11 @@ from interfaces.chatinterfaces import ChatCompletionResponse, InputMessage
 router = APIRouter()
 
 client = OpenAI(
+    api_key="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",
     base_url="https://openrouter.ai/api/v1",
     default_headers={
         "Authorization": "Bearer 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",
-        "HTTP-Referer": "https://fronllm.onrender.com",  # Cambia esto a tu dominio
+        "HTTP-Referer": "https://fronllm.onrender.com",  # Cámbialo si usas otro frontend
         "X-Title": "MiniChatGPT Brandon"
     }
 )
