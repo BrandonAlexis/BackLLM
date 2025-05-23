@@ -6,7 +6,7 @@ router = APIRouter()
 
 # Cliente de OpenRouter configurado
 client = OpenAI(
-    api_key="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",
+    api_key="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",
     base_url="https://openrouter.ai/api/v1",
 )
 
