@@ -26,8 +26,8 @@ def aiChat(data: InputMessage):
         completion = client.chat.completions.create(
             model=MODEL,
             messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": data["message"]}
+                
+                {"role": "user", "content": f"{system_prompt}\n\n{data['message']}"}
             ],
             extra_headers={
                 "HTTP-Referer": "https://fronllm.onrender.com",
